@@ -18,3 +18,11 @@ jobs:
         run: ./gradlew generateApi
       - name: Copy API files
         run: ./gradlew copyApiFilesIntoProject
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automatically update API code"
+          commit_options: "--no-verify"
+          branch: main
+          file_pattern: '**/*'
+          file_ignore_pattern: '**/*.log'
