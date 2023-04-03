@@ -1,57 +1,66 @@
 package com.riis.droneswagger
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import com.riis.droneswagger.databinding.ActivityMainBinding
+import com.riis.droneswagger.api.common.DroneApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.openapitools.client.infrastructure.ApiClient
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-private lateinit var binding: ActivityMainBinding
+    private lateinit var droneApi: DroneApi
+    private lateinit var button1: Button
+    private lateinit var button2: Button
+    private lateinit var button3: Button
+    private lateinit var button4: Button
+    private lateinit var resultsView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-     binding = ActivityMainBinding.inflate(layoutInflater)
-     setContentView(binding.root)
+        button1 = findViewById(R.id.button1)
+        button2 = findViewById(R.id.button2)
+        button3 = findViewById(R.id.button3)
+        button4 = findViewById(R.id.button4)
+        resultsView = findViewById(R.id.resultsView)
 
-        setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // Initialize the API client
+        val apiClient = ApiClient("https://myapp.yoh.gay/")
+        droneApi = DroneApi(apiClient.baseUrl, apiClient.client)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        button1.setOnClickListener {
+            // Call the API endpoint in a background thread
+            CoroutineScope(Dispatchers.IO).launch {
+                val droneId = "your-drone-id"
+                val droneAction = "takeoff" // or whatever action you want to execute
+                try {
+                    val response = droneApi.droneIdActionsPutWithHttpInfo(droneId, droneAction)
+                    resultsView.text = response.statusCode.toString()
+                } catch (e: Exception) {
+                    Log.e("ERRORS", "Error calling API: ${e.message}")
+                }
+            }
         }
-    }
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when(item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        button2.setOnClickListener {
+            // Call the API endpoint in a background thread
+            CoroutineScope(Dispatchers.IO).launch {
+                val droneId = "your-drone-id"
+                try {
+                    val response = droneApi.droneIdGetWithHttpInfo(droneId)
+                    resultsView.text = response.statusCode.toString()
+                } catch (e: Exception) {
+                    Log.e("ERRORS", "Error calling API: ${e.message}")
+                }
+            }
         }
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-    val navController = findNavController(R.id.nav_host_fragment_content_main)
-    return navController.navigateUp(appBarConfiguration)
-            || super.onSupportNavigateUp()
     }
 }

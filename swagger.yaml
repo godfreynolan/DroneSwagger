@@ -15,25 +15,25 @@ paths:
   /drone/{id}/actions:
     put:
       tags:
-      - drone
+        - drone
       summary: send drone actions
       description: send actions commands to drone
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
-      - in: body
-        name: action
-        schema:
+        - in: path
+          name: id
           type: string
-        required: true
-        description: action to excecute
+          required: true
+          description: drone ID
+        - in: body
+          name: action
+          schema:
+            type: string
+          required: true
+          description: action to excecute
       responses:
         200:
           description: drone action excecuted
@@ -50,19 +50,19 @@ paths:
   /drone/{id}/photo:
     post:
       tags:
-      - drone
+        - drone
       summary: take photo
       description: drone take a photo
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
       responses:
         200:
           description: Drone has taken a photo
@@ -76,23 +76,23 @@ paths:
           description: Drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
-  
+
   /drone/{id}/thermal:
     delete:
       tags:
-      - drone
+        - drone
       summary: disable drone camera thermal mode
       description: disable drone camera thermal mode
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
       responses:
         200:
           description: drone camera thermal mode disable is done
@@ -108,25 +108,25 @@ paths:
             application/json: {"error":true,"data":{},"message":"drone not found"}
     put:
       tags:
-      - drone
+        - drone
       summary: enable drone camera thermal mode
       description: enable drone camera thermal mode
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
-      - in: body
-        name: enable
-        schema:
+        - in: path
+          name: id
           type: string
-        required: true
-        description: "enable true for activate thermal mode"
+          required: true
+          description: drone ID
+        - in: body
+          name: enable
+          schema:
+            type: string
+          required: true
+          description: "enable true for activate thermal mode"
       responses:
         200:
           description: drone camera thermal mode changed is done
@@ -143,42 +143,42 @@ paths:
   /drone:
     get:
       tags:
-      - drone
+        - drone
       summary: get drone list
       description: get drone list
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       responses:
         200:
           description: drone list data
           examples:
             application/json: {"error":false,"data":[{"id":"DRONE1","ip": "10.0.0.1","enable": true}],"message":"success"}
-          
-            
+
+
   /drone/{id}:
     get:
       tags:
-      - drone
+        - drone
       summary: get drone data state
       description: get drone data state inspection point, battery level, drone state
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
       responses:
         200:
           description: drone data is available
           examples:
             application/json: {"error":false,"data":{"id": "DRONE1","ip": "10.0.0.1","enable": true,"lastDroneState": {"id": 1,"battery": 90,"state":"flying","speedx":0.0304199624806643,"speedy":2.05691766738892,"speedz":-0.516887664794922,"lat":48.8789247502303,"lon":2.36777917578966,"alt":1.70987713336945,"created_at": "2021-06-17 10:41:07.022946","flight":{"id": 1, "is_waypoint_inspections_point": false}}},"message":"success"}
-          
+
         400:
           description: drone data is not available
           examples:
@@ -187,36 +187,36 @@ paths:
           description: drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
-            
+
   /drone/{id}/gimbal:
     put:
       tags:
-      - drone
+        - drone
       summary: Change drone gimbal position
       description: Move gimbal by specifying (x,y) coordinates
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
-      - in: body
-        name: coord
-        description: Moves the camera to given coordinates
-        schema:
-          type: object
-          required:
-            - x
-            - y
-          properties:
-            x:
-              type: number
-            y:
-              type: number
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
+        - in: body
+          name: coord
+          description: Moves the camera to given coordinates
+          schema:
+            type: object
+            required:
+              - x
+              - y
+            properties:
+              x:
+                type: number
+              y:
+                type: number
       responses:
         200:
           description: drone gimbal change position is done
@@ -230,23 +230,23 @@ paths:
           description: drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
-            
+
   /drone/{id}/zoom:
     delete:
       tags:
-      - drone
+        - drone
       summary: make drone zoom  out
       description: send values to drone camera for make zoom out
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
 
       responses:
         200:
@@ -263,19 +263,19 @@ paths:
             application/json: {"error":true,"data":{},"message":"drone not found"}
     put:
       tags:
-      - drone
+        - drone
       summary: make drone zoom in
       description: send values to drone camera for make zoom in
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
 
       responses:
         200:
@@ -290,23 +290,23 @@ paths:
           description: drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
-            
+
   /drone/{id}/streaming:
     post:
       tags:
-      - drone
+        - drone
       summary: check streaming availability
       description: check if drone streaming is available
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
       responses:
         200:
           description: drone streaming is available
@@ -322,23 +322,23 @@ paths:
             application/json: {"error":true,"data":{},"message":"drone not found"}
     get:
       tags:
-      - drone
+        - drone
       summary: get streaming data
       description: check if drone streaming is available
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: path
-        name: id
-        type: string
-        required: true
-        description: drone ID
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: drone ID
       responses:
         200:
           description: image data binary
-          
+
         400:
           description: drone image data is not available
           examples:
@@ -347,12 +347,12 @@ paths:
           description: drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
-  
-          
+
+
 # Added by API Auto Mocking Plugin
 host: yourserver.yoururl.com
 # basePath: /theegg/Drone/1.0.0
 schemes:
- - https
+  - https
 # Added by API Auto Mocking Plugin
 basePath: /

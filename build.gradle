@@ -15,7 +15,6 @@ task generateApi(type: GenerateTask) {
     invokerPackage = "com.riis.droneswagger.generated.api.invoker.common"
     modelPackage = "com.riis.droneswagger.generated.api.model.common"
     configOptions = [dateLibrary: "java8", useRxJava3:"true", serializationLibrary: "gson"]
-//    configOptions = [dateLibrary: "java8", serializationLibrary: "gson"]
 }
 
 task copyApiFilesIntoProject(type: Copy) {
