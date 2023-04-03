@@ -41,7 +41,7 @@ class DroneApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient =
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://yourserver.yoururl.com")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://server.url.com")
         }
     }
 
