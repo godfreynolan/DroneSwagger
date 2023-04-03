@@ -36,9 +36,8 @@ class MainActivity : AppCompatActivity() {
         droneApi = DroneApi(apiClient.baseUrl, apiClient.client)
 
         button1.setOnClickListener {
-            // Call the API endpoint in a background thread
             CoroutineScope(Dispatchers.IO).launch {
-                val droneId = "your-drone-id"
+                val droneId = "123"
                 val droneAction = "takeoff" // or whatever action you want to execute
                 try {
                     val response = droneApi.droneIdActionsPutWithHttpInfo(droneId, droneAction)
@@ -50,11 +49,34 @@ class MainActivity : AppCompatActivity() {
         }
 
         button2.setOnClickListener {
-            // Call the API endpoint in a background thread
             CoroutineScope(Dispatchers.IO).launch {
-                val droneId = "your-drone-id"
+                val droneId = "123"
                 try {
                     val response = droneApi.droneIdGetWithHttpInfo(droneId)
+                    resultsView.text = response.statusCode.toString()
+                } catch (e: Exception) {
+                    Log.e("ERRORS", "Error calling API: ${e.message}")
+                }
+            }
+        }
+
+        button3.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val droneId = "123"
+                try {
+                    val response = droneApi.droneIdZoomPutWithHttpInfo(droneId)
+                    resultsView.text = response.statusCode.toString()
+                } catch (e: Exception) {
+                    Log.e("ERRORS", "Error calling API: ${e.message}")
+                }
+            }
+        }
+
+        button4.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val droneId = "123"
+                try {
+                    val response = droneApi.droneIdZoomDeleteWithHttpInfo(droneId)
                     resultsView.text = response.statusCode.toString()
                 } catch (e: Exception) {
                     Log.e("ERRORS", "Error calling API: ${e.message}")
