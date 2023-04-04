@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // Initialize the API client
-        val apiClient = ApiClient("https://myapp.yoh.gay/")
+        val apiClient = ApiClient("http://10.0.0.10:8080/")
         droneApi = DroneApi(apiClient.baseUrl, apiClient.client)
 
         button1.setOnClickListener {
