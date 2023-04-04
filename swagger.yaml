@@ -320,6 +320,34 @@ paths:
           description: drone not found
           examples:
             application/json: {"error":true,"data":{},"message":"drone not found"}
+    put:
+      tags:
+      - drone
+      summary: check streaming availability
+      description: check if drone streaming is available
+      consumes:
+      - application/text
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+        description: drone ID
+      responses:
+        200:
+          description: drone streaming is available
+          examples:
+            application/json: {"error":false,"data":{},"message":"streaming is available"}
+        400:
+          description: drone streaming is not available
+          examples:
+            application/json: {"error":true,"data":{},"message":"streaming is not available"}
+        404:
+          description: drone not found
+          examples:
+            application/json: {"error":true,"data":{},"message":"drone not found"}
     get:
       tags:
       - drone
