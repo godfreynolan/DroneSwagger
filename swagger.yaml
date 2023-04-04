@@ -119,7 +119,7 @@ paths:
       - in: path
         name: id
         type: string
-        required: false
+        required: true
         description: drone ID
       - in: body
         name: enable
