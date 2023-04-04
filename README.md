@@ -247,7 +247,7 @@ Credit for Swagger API: [SwaggerHub](https://app.swaggerhub.com/apis/test-theegg
     ```
     
     Create a file `main.py` and insert the following inside:
-    ```py=
+    ```python=
     from flask import Flask, jsonify, request
 
     app = Flask(__name__)
@@ -292,4 +292,43 @@ Credit for Swagger API: [SwaggerHub](https://app.swaggerhub.com/apis/test-theegg
     
 10. Finally, we can run this and give it a test. If everything is working well, we should see our print statements from our flask server.
 
+11. Now we can start the setup of our Github Actions. We can use Github Action workflows to automate some tasks for us. In this case, we will have our action regenerate our Drone API client on each push to our main branch. This way, if we update our Swagger API we can get an automatic build for it.
 
+    For our first step we will grant actions read and write access to our repository. In your repo, navigate to Settings -> Actions -> General and scroll down to Workflow permission. Here we will grant it read/write permissions.
+    ![grant workflow perms](https://notes.yoh.gay/uploads/d2e89374-9c05-43eb-bbf8-1822d70b0eaf.png)
+
+12. Next we will setup a Github Action. Navigate to Actions -> set up a workflow yourself. Paste the following in:
+    ```yaml=
+    name: Generate and Copy API Code
+
+    on:
+      push:
+        branches: [main]
+
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Set up JDK 11
+            uses: actions/setup-java@v2
+            with:
+              java-version: 11
+              distribution: adopt
+          - name: Generate API code
+            run: ./gradlew generateApi
+          - name: Copy API files
+            run: ./gradlew copyApiFilesIntoProject
+          - name: Commit and push changes
+            uses: stefanzweifel/git-auto-commit-action@v4
+            with:
+              commit_message: "Automatically update API code"
+              commit_options: "--no-verify"
+              branch: main
+              file_pattern: '**/*'
+    ```
+    This action will be activated on changes to the main branch. We will run our gradle tasks that we defined earlier. We will then commit any changes to the Drone API to our main branch if there are any differences with the `swagger.yaml`.
+    
+    You should now be able to commit and push your commit, this should trigger a build with your new Action. 
+    
+13. To test further, you can edit the `swagger.yaml` in Github, make a change to one of the endpoints and see a build trigger to ensure that you see a new commit be pushed from your Action. 
